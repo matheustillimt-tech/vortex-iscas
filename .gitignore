@@ -1,0 +1,29 @@
+# dependências e build
+node_modules/
+.next/
+out/
+build/
+dist/
+next-env.d.ts
+*.tsbuildinfo
+
+# segredos: nunca versionar (o modelo fica em .env.example)
+.env
+.env*
+!.env.example
+
+# ferramentas
+.vercel/
+supabase/.temp/
+supabase/.branches/
+
+# rascunhos da pesquisa das iscas
+_pesquisa/
+
+# sistema e editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+npm-debug.log*

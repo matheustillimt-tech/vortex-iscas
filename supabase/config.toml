@@ -1,0 +1,4 @@
+# Configuração da linha de comando do Supabase (CLI).
+# O banco em si fica em supabase/migrations/ e vai pro seu projeto com `supabase link` + `supabase db push`.
+# As outras opções usam os valores padrão do Supabase: https://supabase.com/docs/guides/local-development/cli/config
+project_id = "vortex-iscas"

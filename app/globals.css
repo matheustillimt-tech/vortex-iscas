@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/*
+ * Visual: estilo Instagram.
+ * Fundo branco, texto preto em evidência, fonte Inter (a mais legível em tela).
+ * Cor só em momento de ação: verde = botão de conversão e convite.
+ * Quer mudar a cor do botão? Troque --color-go e --color-go-hover.
+ */
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+  --color-muted: #737373;
+  --color-card: #fafafa;
+  --color-card-border: #dbdbdb;
+  --color-soft: #efefef;
+  --color-soft-hover: #dbdbdb;
+  --color-link: #00376b;
+  --color-verified: #0095f6;
+
+  --color-accent: #0095f6;
+  --color-accent-hover: #1877f2;
+
+  /* Momentos de ação */
+  --color-live: #e8112d;
+  --color-live-soft: #fff0f2;
+  --color-go: #16a34a;
+  --color-go-hover: #15803d;
+
+  /* CRM de leads (/admin, tema escuro) */
+  --color-ad-bg: #0a0a0a;
+  --color-ad-panel: #111111;
+  --color-ad-panel-2: #171717;
+  --color-ad-line: #232323;
+  --color-ad-text: #ededed;
+  --color-ad-muted: #8b8b8b;
+  --color-ad-accent: #22c55e;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-verified);
+  outline-offset: 2px;
+}
+
+/* ============================================
+ * LASER: brilho que corre pela borda do botão verde e do convite.
+ * O elemento precisa de border-radius e de padding (o laser ocupa a borda).
+ * ============================================ */
+@property --laser-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.laser {
+  position: relative;
+  isolation: isolate;
+}
+
+.laser::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: var(--laser-width, 2px);
+  border-radius: inherit;
+  background:
+    conic-gradient(
+      from var(--laser-angle),
+      transparent 0deg 95deg,
+      var(--laser-color) 150deg,
+      #ffffff 174deg,
+      transparent 180deg 275deg,
+      var(--laser-color) 330deg,
+      #ffffff 354deg,
+      transparent 360deg
+    ),
+    var(--laser-base, transparent);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: laser-spin 3s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.laser-go {
+  --laser-color: #bbf7d0;
+  --laser-base: rgb(255 255 255 / 0.18);
+  --laser-width: 2px;
+}
+
+@keyframes laser-spin {
+  to {
+    --laser-angle: 360deg;
+  }
+}
+
+/* PULSO: onda que sai do botão verde */
+.pulse-go {
+  animation: pulse-go 1.8s ease-out infinite;
+}
+
+@keyframes pulse-go {
+  0% {
+    box-shadow: 0 0 0 0 rgb(22 163 74 / 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 16px rgb(22 163 74 / 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(22 163 74 / 0);
+  }
+}
+
+/* BOLINHA AO VIVO: pisca */
+.live-dot {
+  animation: live-blink 1.1s ease-in-out infinite;
+}
+
+@keyframes live-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .laser::before,
+  .pulse-go,
+  .live-dot {
+    animation: none;
+  }
+}
+
+/* Esconder convite, cabeçalho e rodapé na impressão */
+@media print {
+  [data-no-print] {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
